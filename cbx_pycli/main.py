@@ -20,7 +20,7 @@ colors = {
     "marker": "#ff0055",
     "fuzzy_prompt": "#ff00fb",
     "fuzzy_info": "#abb2bf",
-    "fuzzy_border": "#4b5263",
+    "fuzzy_border": "",
     "fuzzy_match": "#ff00fb",
     "spinner_pattern": "#ff0055",
     "spinner_text": "",
@@ -31,28 +31,30 @@ style = get_style(colors, style_override=True)
 
 app = typer.Typer(rich_markup_mode="rich")
 
+init_app = typer.Typer(rich_markup_mode="rich")
+
+
 @app.callback()
 def callback():
-    """
-    Let's get started !
+    print("\nLet's get started ! :rocket:")
 
-    The aim of this project is to create a CLI that will help you automate recurring tasks.
-    """
+
+app.add_typer(init_app, name="init", callback=callback)
+
 
 @app.command()
 def start():
     choices = [
-        Choice(value="opt1", name="Option 1"),
-        Choice(value="opt2", name="Option 2"),
-        Choice(value="opt3", name="Option 3"),
+        Choice(value="1", name="Docker \U0001F433"),
+        Choice(value="2", name="Poetry \U0001F4D6"),
+        Choice(value="3", name="Git \U0001F33F"),
     ]
 
     user_choice = inquirer.select(
         choices=choices,
-        default="opt1",
-        message="Please choose an option:",
+        default="1",
+        message="Wich type of command do you want to run ?",
         style=style,
-        vi_mode=True,
     ).execute()
 
     print(f"You chose: {user_choice}")
