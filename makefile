@@ -2,8 +2,20 @@ include .env
 export $(shell sed 's/=.*//' .env)
 
 
+py_path:
+	@poetry env info --path
+
+py_executable:
+	@poetry env list --full-path
+
+py_list_full_path:
+	@poetry env info --executable
+
+activate:
+	@poetry env use $(shell poetry env info --executable)
+
 install:
-	@poetry install --no-root
+	@poetry install
 
 update:
 	@poetry update
@@ -27,3 +39,7 @@ add_dev:
 rm_dev: lib =?
 rm_dev:
 	@poetry remove ${lib} --group dev
+
+
+run_main:
+	@poetry run start
