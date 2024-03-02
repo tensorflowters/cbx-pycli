@@ -1,11 +1,12 @@
-import sys
+from typing import Optional
+
+import colorama  # type: ignore
 
 import structlog
-import colorama # type: ignore
-
 import typer
-from rich.traceback import install
 from rich import print
+from rich.traceback import install
+from typing_extensions import Annotated
 
 cr = structlog.dev.ConsoleRenderer(
     columns=[
@@ -43,17 +44,65 @@ cr = structlog.dev.ConsoleRenderer(
     ]
 )
 
-structlog.configure(processors=structlog.get_config()["processors"][:-1]+[cr])
+structlog.configure(processors=structlog.get_config()["processors"][:-1] + [cr])
 
 log = structlog.get_logger()
 
 install(show_locals=True)
 
-app = typer.Typer()
+def callback2():
+    print("Running a command")
 
-@app.command()
-def main(name: str):
-    print(f"Hello {name}")
+app = typer.Typer(rich_markup_mode="rich", callback=callback2)
+state = {"verbose": False}
+
+
+@app.command("bruh")
+def puto_bruh(
+    name: Annotated[
+        str,
+        typer.Argument(
+            ..., help="The [green]name[/green] to say hello to", metavar="✨username✨"
+        ),
+    ],
+    last_name: Annotated[Optional[str], typer.Argument()] = None,
+    force: Annotated[
+        bool, typer.Option(help="Force the [bold red]deletion[/bold red] :boom:")
+    ] = False,
+):
+    log.info("Hello", name=name, last_name=last_name)
+
+    print(f"Are yoou a [bold blue]bitch[/bold blue] ? {force}")
+
+    if last_name is not None:
+        name = f"{name} {last_name}"
+    else:
+        name = name
+
+    print(f"Hello, {name}!")
+
+
+@app.command("bruh2")
+def puto_bruh2(
+    name: Annotated[
+        str,
+        typer.Argument(
+            ..., help="The [green]name[/green] to say hello to", metavar="✨username✨"
+        ),
+    ]
+):
+    print(f"{name}")
+
+# Ovveride callback2
+# @app.callback()
+# def main(verbose: bool = False):
+#     """
+#     Manage users in the awesome CLI app.
+#     """
+#     if verbose:
+#         print("Will write verbose output")
+#         state["verbose"] = True
+
 
 if __name__ == "__main__":
     app()

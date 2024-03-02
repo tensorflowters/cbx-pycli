@@ -41,5 +41,8 @@ rm_dev:
 	@poetry remove ${lib} --group dev
 
 
-run_main:
-	@poetry run start
+run_bruh:
+	@poetry run pycli bruh Puto
+
+run_bruh:
+	@poetry run pycli bruh2 Puta
