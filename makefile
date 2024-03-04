@@ -20,7 +20,7 @@ poe_install:
 poe_update:
 	@poetry update
 
-poe_add: lib ?= "undefined"
+poe_add: lib =?
 poe_add:
 	@poetry add ${lib}
 
