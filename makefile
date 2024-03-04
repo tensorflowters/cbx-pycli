@@ -28,17 +28,9 @@ poe_rm: lib =?
 poe_rm:
 	@poetry remove ${lib}
 
-
-poe_install_dev:
-	@poetry install --no-root --without dev
-
 poe_add_dev: lib =?
 poe_add_dev:
 	@poetry add ${lib} --group dev
-
-poe_rm_dev: lib =?
-poe_rm_dev:
-	@poetry remove ${lib} --group dev
 
 poe_build:
 	@poetry build

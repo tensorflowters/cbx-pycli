@@ -1,0 +1,8 @@
+Package: mon-projet
+Version: 1.0.0
+Section: utils
+Priority: optional
+Architecture: all
+Depends: python3 (>= 3.6), python3-pip
+Maintainer: Votre Nom <votre.email@example.com>
+Description: Une description plus détaillée de votre application.
