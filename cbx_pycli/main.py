@@ -1,108 +1,60 @@
-from typing import Optional
-
-import colorama  # type: ignore
-
-import structlog
 import typer
+from InquirerPy import get_style, inquirer
+from InquirerPy.base.control import Choice
 from rich import print
-from rich.traceback import install
-from typing_extensions import Annotated
 
-cr = structlog.dev.ConsoleRenderer(
-    columns=[
-        # Render the timestamp without the key name in yellow.
-        structlog.dev.Column(
-            "timestamp",
-            structlog.dev.KeyValueColumnFormatter(
-                key_style=None,
-                value_style=colorama.Fore.YELLOW,
-                reset_style=colorama.Style.RESET_ALL,
-                value_repr=str,
-            ),
-        ),
-        # Render the event without the key name in bright magenta.
-        structlog.dev.Column(
-            "event",
-            structlog.dev.KeyValueColumnFormatter(
-                key_style=None,
-                value_style=colorama.Style.BRIGHT + colorama.Fore.MAGENTA,
-                reset_style=colorama.Style.RESET_ALL,
-                value_repr=str,
-            ),
-        ),
-        # Default formatter for all keys not explicitly mentioned. The key is
-        # cyan, the value is green.
-        structlog.dev.Column(
-            "",
-            structlog.dev.KeyValueColumnFormatter(
-                key_style=colorama.Fore.CYAN,
-                value_style=colorama.Fore.GREEN,
-                reset_style=colorama.Style.RESET_ALL,
-                value_repr=str,
-            ),
-        ),
+colors = {
+    "questionmark": "#ff0055 bold",
+    "answermark": "#ff0055",
+    "answer": "#ff00fb",
+    "input": "#00ff7b",
+    "question": "",
+    "answered_question": "",
+    "instruction": "#abb2bf",
+    "long_instruction": "#abb2bf",
+    "pointer": "#ff00fb",
+    "checkbox": "#00ff7b",
+    "separator": "",
+    "skipped": "#5c6370",
+    "validator": "",
+    "marker": "#ff0055",
+    "fuzzy_prompt": "#ff00fb",
+    "fuzzy_info": "#abb2bf",
+    "fuzzy_border": "",
+    "fuzzy_match": "#ff00fb",
+    "spinner_pattern": "#ff0055",
+    "spinner_text": "",
+}
+
+
+style = get_style(colors, style_override=True)
+
+app = typer.Typer(rich_markup_mode="rich")
+
+init_app = typer.Typer(rich_markup_mode="rich")
+
+
+@app.callback()
+def callback():
+    print("\nLet's get started ! :rocket:")
+
+
+app.add_typer(init_app, name="init", callback=callback)
+
+
+@app.command()
+def start():
+    choices = [
+        Choice(value="1", name="Docker \U0001F433"),
+        Choice(value="2", name="Poetry \U0001F4D6"),
+        Choice(value="3", name="Git \U0001F33F"),
     ]
-)
 
-structlog.configure(processors=structlog.get_config()["processors"][:-1] + [cr])
+    user_choice = inquirer.select(
+        choices=choices,
+        default="1",
+        message="Wich type of command do you want to run ?",
+        style=style,
+    ).execute()
 
-log = structlog.get_logger()
-
-install(show_locals=True)
-
-def callback2():
-    print("Running a command")
-
-app = typer.Typer(rich_markup_mode="rich", callback=callback2)
-state = {"verbose": False}
-
-
-@app.command("bruh")
-def puto_bruh(
-    name: Annotated[
-        str,
-        typer.Argument(
-            ..., help="The [green]name[/green] to say hello to", metavar="✨username✨"
-        ),
-    ],
-    last_name: Annotated[Optional[str], typer.Argument()] = None,
-    force: Annotated[
-        bool, typer.Option(help="Force the [bold red]deletion[/bold red] :boom:")
-    ] = False,
-):
-    log.info("Hello", name=name, last_name=last_name)
-
-    print(f"Are yoou a [bold blue]bitch[/bold blue] ? {force}")
-
-    if last_name is not None:
-        name = f"{name} {last_name}"
-    else:
-        name = name
-
-    print(f"Hello, {name}!")
-
-
-@app.command("bruh2")
-def puto_bruh2(
-    name: Annotated[
-        str,
-        typer.Argument(
-            ..., help="The [green]name[/green] to say hello to", metavar="✨username✨"
-        ),
-    ]
-):
-    print(f"{name}")
-
-# Ovveride callback2
-# @app.callback()
-# def main(verbose: bool = False):
-#     """
-#     Manage users in the awesome CLI app.
-#     """
-#     if verbose:
-#         print("Will write verbose output")
-#         state["verbose"] = True
-
-
-if __name__ == "__main__":
-    app()
+    print(f"You chose: {user_choice}")

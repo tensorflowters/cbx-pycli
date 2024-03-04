@@ -2,47 +2,46 @@ include .env
 export $(shell sed 's/=.*//' .env)
 
 
-py_path:
+poe_path:
 	@poetry env info --path
 
-py_executable:
+poe_executable:
 	@poetry env list --full-path
 
 py_list_full_path:
 	@poetry env info --executable
 
-activate:
-	@poetry env use $(shell poetry env info --executable)
+poe_activate:
+	@poetry shell
 
-install:
+poe_install:
 	@poetry install
 
-update:
+poe_update:
 	@poetry update
 
-add: lib ?= "undefined"
-add:
+poe_add: lib =?
+poe_add:
 	@poetry add ${lib}
 
-rm: lib =?
-rm:
+poe_rm: lib =?
+poe_rm:
 	@poetry remove ${lib}
 
 
-install_dev:
+poe_install_dev:
 	@poetry install --no-root --without dev
 
-add_dev: lib =?
-add_dev:
+poe_add_dev: lib =?
+poe_add_dev:
 	@poetry add ${lib} --group dev
 
-rm_dev: lib =?
-rm_dev:
+poe_rm_dev: lib =?
+poe_rm_dev:
 	@poetry remove ${lib} --group dev
 
+poe_build:
+	@poetry build
 
-run_bruh:
-	@poetry run pycli bruh Puto
-
-run_bruh:
-	@poetry run pycli bruh2 Puta
+local_install:
+	@pipx install --user /home/athernatos/workspace/cyb-devtools/cbx-pycli/dist/cbx_pycli-0.1.0-py3-none-any.whl
