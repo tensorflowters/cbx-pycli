@@ -2,10 +2,41 @@ include .env
 export $(shell sed 's/=.*//' .env)
 
 
-poe_path:
-	@poetry env info --path
+sys_install:
+	@sudo apt-get update
+	@sudo apt-get install -y jq
 
+os_detect:
+	@/bin/bash -c "./scripts/detect_os.sh"
+
+shell_detect:
+	@/bin/bash -c "./scripts/detect_shell.sh"
+
+
+init_pyenv:
+	@/bin/bash -c "./scripts/init_pyenv.sh"
+
+POETRY_ENV_PATH := $(poetry env info --path)
+PYTHON_ENV_PATH := $(poetry env info --executable)
+
+ifeq ($(POETRY_ENV_PATH),)
+poe_path:
+	@echo "Poetry environment path is not set."
+else
+poe_path:
+	@echo "Poetry environment path is set to: $(POETRY_ENV_PATH)"
+endif
+
+
+ifeq ($(PYTHON_ENV_PATH),)
 poe_executable:
+	@echo "Python executable path is not set."
+else
+poe_executable:
+	@echo "Python executable path is set to: $(PYTHON_ENV_PATH)"
+endif
+
+poe_path_list:
 	@poetry env list --full-path
 
 py_list_full_path:
@@ -28,20 +59,35 @@ poe_rm: lib =?
 poe_rm:
 	@poetry remove ${lib}
 
-
-poe_install_dev:
-	@poetry install --no-root --without dev
-
 poe_add_dev: lib =?
 poe_add_dev:
 	@poetry add ${lib} --group dev
-
-poe_rm_dev: lib =?
-poe_rm_dev:
-	@poetry remove ${lib} --group dev
 
 poe_build:
 	@poetry build
 
 local_install:
 	@pipx install --user /home/athernatos/workspace/cyb-devtools/cbx-pycli/dist/cbx_pycli-0.1.0-py3-none-any.whl
+
+
+pyenv_install:
+	@curl https://pyenv.run | bash
+
+pyenv_shell:
+	@pyenv shell ${PY_SHELL}
+
+pyenv_local:
+	@pyenv local ${PY_ENV_LOCAL}
+
+pyenv_global:
+	@pyenv local ${PY_ENV_GLOBAL}
+
+# A special version name "system" means to use whatever Python is found on PATH
+pyenv_system:
+	@pyenv system
+
+
+# Displays which real executable would be run when you invoke <command> via a shim.
+pyenv_which: command =?
+pyenv_which:
+	@pyenv which ${command}

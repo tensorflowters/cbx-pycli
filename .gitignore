@@ -2,3 +2,6 @@
 *__pycache__
 .mypy_cache
 .vscode
+os_info.json
+shell_info.json
+
