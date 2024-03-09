@@ -3,9 +3,32 @@ export $(shell sed 's/=.*//' .env)
 
 SYSTEM_SHELL := $(shell echo $$SHELL)
 
-sys_install:
-	@sudo apt-get update
-	@sudo apt-get install -y jq git curl
+
+pyenv_list:
+	@pyenv install -l
+
+pyenv_list_installed:
+	@pyenv versions
+
+pyenv_uninstall_python:
+	@pyenv global ${PY_ENV_LOCAL}
+
+pyenv_install_python:
+	@pyenv install ${PY_ENV_LOCAL}
+
+pyenv_local_install_python:
+	@pyenv local ${PY_ENV_LOCAL}
+
+pyenv_global_install_python:
+	@pyenv global ${PY_ENV_LOCAL}
+
+pyenv_system_install_python:
+	@pyenv system ${PY_ENV_LOCAL}
+
+
+py_exec:
+	@pyenv exec python --version
+
 
 POETRY_ENV_PATH := $(poetry env info --path)
 PYTHON_ENV_PATH := $(poetry env info --executable)
@@ -59,22 +82,3 @@ poe_build:
 
 local_install:
 	@pipx install --user /home/athernatos/workspace/cyb-devtools/cbx-pycli/dist/cbx_pycli-0.1.0-py3-none-any.whl
-
-pyenv_shell:
-	@pyenv shell ${PY_SHELL}
-
-pyenv_local:
-	@pyenv local ${PY_ENV_LOCAL}
-
-pyenv_global:
-	@pyenv local ${PY_ENV_GLOBAL}
-
-# A special version name "system" means to use whatever Python is found on PATH
-pyenv_system:
-	@pyenv system
-
-
-# Displays which real executable would be run when you invoke <command> via a shim.
-pyenv_which: command =?
-pyenv_which:
-	@pyenv which ${command}
