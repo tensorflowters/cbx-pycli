@@ -34,7 +34,6 @@ def select_prompt(
     )
     return inquirer.select(
         choices=choices,
-        default="1",
         message=message,
         style=style,
         instruction=instruction,
