@@ -19,7 +19,8 @@ if [ "$os" = "Ubuntu" ]; then
     if [ -d "${PYENV_ROOT}" ]; then
       echo -e "\033[36mPyenv already installed\033[0m\n"
     else
-      git clone https://github.com/pyenv/pyenv.git $PYENV_ROOT
+      git submodule add https://github.com/pyenv/pyenv.git $PYENV_ROOT
+      git submodule update --init --recursive
 
       echo "export PYENV_ROOT=\"$PYENV_ROOT\"" >>~/.zshrc
       echo "[[ -d \$PYENV_ROOT/bin ]] && export PATH=\"\$PYENV_ROOT/bin:\$PATH\"" >>~/.zshrc
@@ -40,7 +41,8 @@ if [ "$os" = "Ubuntu" ]; then
     if [ -d "${PYENV_ROOT}/.pyenv" ]; then
       echo -e "\033[36mPyenv already installed\033[0m\n"
     else
-      git clone https://github.com/pyenv/pyenv.git $PYENV_ROOT
+      git submodule add https://github.com/pyenv/pyenv.git $PYENV_ROOT
+      git submodule update --init --recursive
 
       echo "export PYENV_ROOT=\"$PYENV_ROOT\"" >>~/.bashrc
       echo "command -v pyenv >/dev/null || export PATH=\"\$PYENV_ROOT/bin:\$PATH\"" >>~/.bashrc
