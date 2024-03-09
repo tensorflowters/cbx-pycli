@@ -1,20 +1,11 @@
 include .env
 export $(shell sed 's/=.*//' .env)
 
+SYSTEM_SHELL := $(shell echo $$SHELL)
 
 sys_install:
 	@sudo apt-get update
-	@sudo apt-get install -y jq
-
-os_detect:
-	@/bin/bash -c "./scripts/detect_os.sh"
-
-shell_detect:
-	@/bin/bash -c "./scripts/detect_shell.sh"
-
-
-init_pyenv:
-	@/bin/bash -c "./scripts/init_pyenv.sh"
+	@sudo apt-get install -y jq git curl
 
 POETRY_ENV_PATH := $(poetry env info --path)
 PYTHON_ENV_PATH := $(poetry env info --executable)
@@ -68,10 +59,6 @@ poe_build:
 
 local_install:
 	@pipx install --user /home/athernatos/workspace/cyb-devtools/cbx-pycli/dist/cbx_pycli-0.1.0-py3-none-any.whl
-
-
-pyenv_install:
-	@curl https://pyenv.run | bash
 
 pyenv_shell:
 	@pyenv shell ${PY_SHELL}
