@@ -1,4 +1,6 @@
-#!/bin/bash
+#!/usr/bin/env bash
+
+set -e
 
 # Fonction pour détecter le shell courant et sa version
 detect_shell() {
