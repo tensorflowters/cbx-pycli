@@ -1,4 +1,6 @@
-#!/bin/bash
+#!/usr/bin/env bash
+
+set -e
 
 detect_linux_distribution() {
     os_detected=""
@@ -64,7 +66,6 @@ AIX*) os="AIX" ;;
 esac
 echo "Système d'exploitation détecté : $os"
 
-# Détails supplémentaires pour Linux
 if [ "$os" = "Linux" ]; then
     detect_linux_distribution
 fi

@@ -1,0 +1,3 @@
+[submodule "/home/athernatos/workspace/cyberlaxy/cbx-tools/cbx-pycli/.pyenv"]
+	path = /home/athernatos/workspace/cyberlaxy/cbx-tools/cbx-pycli/.pyenv
+	url = https://github.com/pyenv/pyenv.git

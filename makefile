@@ -1,40 +1,33 @@
-include .env
-export $(shell sed 's/=.*//' .env)
+PYENV_VERSION := 3.12.1
 
+pyenv_list:
+	@pyenv install -l
 
-sys_install:
-	@sudo apt-get update
-	@sudo apt-get install -y jq
+pyenv_install_python:
+	@pyenv install ${PYENV_VERSION}
 
-os_detect:
-	@/bin/bash -c "./scripts/detect_os.sh"
+pyenv_list_installed:
+	@pyenv versions
 
-shell_detect:
-	@/bin/bash -c "./scripts/detect_shell.sh"
+pyenv_uninstall_python:
+	@pyenv uninstall ${PYENV_VERSION}
 
+pyenv_local_install_python:
+	@pyenv local ${PYENV_VERSION}
 
-init_pyenv:
-	@/bin/bash -c "./scripts/init_pyenv.sh"
+pyenv_global_install_python:
+	@pyenv global ${PYENV_VERSION}
+
+pyenv_system_install_python:
+	@pyenv system ${PYENV_VERSION}
+
+py_exec:
+	@pyenv exec python --version
+
 
 POETRY_ENV_PATH := $(poetry env info --path)
 PYTHON_ENV_PATH := $(poetry env info --executable)
 
-ifeq ($(POETRY_ENV_PATH),)
-poe_path:
-	@echo "Poetry environment path is not set."
-else
-poe_path:
-	@echo "Poetry environment path is set to: $(POETRY_ENV_PATH)"
-endif
-
-
-ifeq ($(PYTHON_ENV_PATH),)
-poe_executable:
-	@echo "Python executable path is not set."
-else
-poe_executable:
-	@echo "Python executable path is set to: $(PYTHON_ENV_PATH)"
-endif
 
 poe_path_list:
 	@poetry env list --full-path
@@ -68,26 +61,3 @@ poe_build:
 
 local_install:
 	@pipx install --user /home/athernatos/workspace/cyb-devtools/cbx-pycli/dist/cbx_pycli-0.1.0-py3-none-any.whl
-
-
-pyenv_install:
-	@curl https://pyenv.run | bash
-
-pyenv_shell:
-	@pyenv shell ${PY_SHELL}
-
-pyenv_local:
-	@pyenv local ${PY_ENV_LOCAL}
-
-pyenv_global:
-	@pyenv local ${PY_ENV_GLOBAL}
-
-# A special version name "system" means to use whatever Python is found on PATH
-pyenv_system:
-	@pyenv system
-
-
-# Displays which real executable would be run when you invoke <command> via a shim.
-pyenv_which: command =?
-pyenv_which:
-	@pyenv which ${command}
