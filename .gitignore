@@ -5,3 +5,4 @@
 os_info.json
 shell_info.json
 .tmp
+.venv

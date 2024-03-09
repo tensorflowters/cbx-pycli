@@ -1,30 +1,25 @@
-include .env
-export $(shell sed 's/=.*//' .env)
-
-SYSTEM_SHELL := $(shell echo $$SHELL)
-
+PYENV_VERSION := 3.12.1
 
 pyenv_list:
 	@pyenv install -l
+
+pyenv_install_python:
+	@pyenv install ${PYENV_VERSION}
 
 pyenv_list_installed:
 	@pyenv versions
 
 pyenv_uninstall_python:
-	@pyenv global ${PY_ENV_LOCAL}
-
-pyenv_install_python:
-	@pyenv install ${PY_ENV_LOCAL}
+	@pyenv uninstall ${PYENV_VERSION}
 
 pyenv_local_install_python:
-	@pyenv local ${PY_ENV_LOCAL}
+	@pyenv local ${PYENV_VERSION}
 
 pyenv_global_install_python:
-	@pyenv global ${PY_ENV_LOCAL}
+	@pyenv global ${PYENV_VERSION}
 
 pyenv_system_install_python:
-	@pyenv system ${PY_ENV_LOCAL}
-
+	@pyenv system ${PYENV_VERSION}
 
 py_exec:
 	@pyenv exec python --version
@@ -33,22 +28,6 @@ py_exec:
 POETRY_ENV_PATH := $(poetry env info --path)
 PYTHON_ENV_PATH := $(poetry env info --executable)
 
-ifeq ($(POETRY_ENV_PATH),)
-poe_path:
-	@echo "Poetry environment path is not set."
-else
-poe_path:
-	@echo "Poetry environment path is set to: $(POETRY_ENV_PATH)"
-endif
-
-
-ifeq ($(PYTHON_ENV_PATH),)
-poe_executable:
-	@echo "Python executable path is not set."
-else
-poe_executable:
-	@echo "Python executable path is set to: $(PYTHON_ENV_PATH)"
-endif
 
 poe_path_list:
 	@poetry env list --full-path

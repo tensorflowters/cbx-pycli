@@ -1,5 +1,4 @@
 [virtualenvs]
-cache-dir = '.cache/pypoetry'
-create = true
+create = false
 virtualenvs.prefer-active-python = true
 virtualenvs.in-project = true

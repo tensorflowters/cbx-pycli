@@ -8,7 +8,7 @@ PYENV_ROOT=$(echo $(pwd))
 
 echo -e "\n\033[36mOS: $os\033[0m"
 echo -e "\033[36mShell: $shell\033[0m\n"
-echo -e "\033[36mShell: $PYENV_ROOT/.pyenv\033[0m\n"
+echo -e "\033[36mPyenv root directory: $PYENV_ROOT/.pyenv\033[0m\n"
 
 # Check if the value equals "ubuntu"
 if [ "$os" = "Ubuntu" ]; then
