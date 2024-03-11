@@ -2,6 +2,9 @@
 
 set -e
 
+# Install pyenv
+source $(echo $(pwd)/scripts/installpyenv)
+
 PYENV_VERSION=3.12.1
 VENV_PATH=$(echo $(pwd)/.venv)
 
