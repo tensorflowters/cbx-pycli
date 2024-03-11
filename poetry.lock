@@ -594,6 +594,17 @@ doc = ["cairosvg (>=2.5.2,<3.0.0)", "mdx-include (>=1.4.1,<2.0.0)", "mkdocs (>=1
 test = ["black (>=22.3.0,<23.0.0)", "coverage (>=6.2,<7.0)", "isort (>=5.0.6,<6.0.0)", "mypy (==0.910)", "pytest (>=4.4.0,<8.0.0)", "pytest-cov (>=2.10.0,<5.0.0)", "pytest-sugar (>=0.9.4,<0.10.0)", "pytest-xdist (>=1.32.0,<4.0.0)", "rich (>=10.11.0,<14.0.0)", "shellingham (>=1.3.0,<2.0.0)"]
 
 [[package]]
+name = "types-invoke"
+version = "2.0.0.10"
+description = "Typing stubs for invoke"
+optional = false
+python-versions = ">=3.7"
+files = [
+    {file = "types-invoke-2.0.0.10.tar.gz", hash = "sha256:a54d7ecdc19e0c22cd2786ef2e64c2631715c78eba8a1bf40b511d0608f33a88"},
+    {file = "types_invoke-2.0.0.10-py3-none-any.whl", hash = "sha256:2404e4279601fa96e14ef68321fd10a660a828677aabdcaeef6a5189778084ef"},
+]
+
+[[package]]
 name = "typing-extensions"
 version = "4.10.0"
 description = "Backported and Experimental Type Hints for Python 3.8+"
@@ -629,4 +640,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = ">3.9, <=3.13"
-content-hash = "70caad307d95836c138178e0f300c7d347bd589c63b56562e39fc70b6329843c"
+content-hash = "8a35bb35bcefe7bb546b8ce77ec5463f8224651bcf6205e5e163476f3d2eb8ac"
