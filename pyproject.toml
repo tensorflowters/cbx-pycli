@@ -6,7 +6,7 @@ authors = ["Arthur Béquié <arthurbequie@protonmail.com>"]
 readme = "README.md"
 
 [tool.poetry.scripts]
-cbx-pycli = "cbx_pycli.main:app"
+cbx = "cbx_pycli.main:app"
 
 
 [tool.poetry.dependencies]
@@ -17,6 +17,7 @@ inquirerpy = "^0.3.4"
 rich = "^13.7.1"
 invoke = "^2.2.0"
 pandas = "^2.2.1"
+types-invoke = "^2.0.0.10"
 
 [tool.poetry.group.dev.dependencies]
 pdoc = "^14.4.0"

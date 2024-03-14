@@ -3,14 +3,14 @@ import logging
 
 import pandas as pd  # type: ignore
 from invoke import task
-from rich.logging import RichHandler
+from rich.logging import RichHandler # type: ignore
 
-# logging.basicConfig(
-#     level="NOTSET",
-#     format="%(message)s",
-#     datefmt="[%X]",
-#     handlers=[RichHandler(rich_tracebacks=True)],
-# )
+logging.basicConfig(
+    level="NOTSET",
+    format="%(message)s",
+    datefmt="[%X]",
+    handlers=[RichHandler()],
+)
 
 log = logging.getLogger("rich")
 
@@ -22,6 +22,10 @@ def generate_unique_id(group):
     )
     return index_str
 
+
+@task
+def rehash(ctx):
+    ctx.run("pyenv rehash")
 
 @task
 def list_installed(ctx):
@@ -101,10 +105,26 @@ def list_all_python_version_to_install(ctx):
 def ls_py_by_version(
     ctx, all_normalized_python_version: dict, search_version_type: str
 ) -> list:
+    log.info(ctx)
+    log.info(ctx.config)
     serch_version_type_group = list(
         filter(
-            lambda x: x["version"] == f"{search_version_type}",
+            lambda x: x["value"] == f"{search_version_type}",
             all_normalized_python_version,
         )
     )
     return serch_version_type_group
+
+@task(post=[rehash])
+def install_python_version(ctx, version: str):
+    installation = ctx.run(f"pyenv install {version} --verbose")
+    if installation.ok:
+        log.info(installation.stdout)
+    else:
+        log.exception(installation.stderr)
+
+@task
+def set_python_version(ctx, version: str):
+    ctx.run(f'pyenv version-file-write $(echo $(pyenv version-origin)) {version}')
+    ctx.run(f"pyenv global {version}")
+    log.info(f"Python version {version} has been set as default")
