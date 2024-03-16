@@ -16,7 +16,6 @@ log = logging.getLogger("rich")
 
 
 def generate_unique_id(group):
-    # Extraire les index du groupe et les convertir en chaîne de caractères
     index_str = "-".join(
         itertools.chain.from_iterable(str(index) for index in group.index)
     )
@@ -29,7 +28,8 @@ def rehash(ctx):
 
 @task
 def list_installed(ctx):
-    ctx.run("pyenv versions")
+    versions = [version.replace(' ', '') for version in ctx.run("pyenv versions").stdout.split("\n") if version != ""]
+    return versions
 
 
 @task
@@ -105,8 +105,6 @@ def list_all_python_version_to_install(ctx):
 def ls_py_by_version(
     ctx, all_normalized_python_version: dict, search_version_type: str
 ) -> list:
-    log.info(ctx)
-    log.info(ctx.config)
     serch_version_type_group = list(
         filter(
             lambda x: x["value"] == f"{search_version_type}",
@@ -120,6 +118,10 @@ def install_python_version(ctx, version: str):
     installation = ctx.run(f"pyenv install {version} --verbose")
     if installation.ok:
         log.info(installation.stdout)
+        run_wichpy = ctx.run("echo $(which python)").stdout
+        if run_wichpy.ok:
+            if run_wichpy.find('aliased'):
+                log.info(f"Verify that an alias don't exist for python in your shell")
     else:
         log.exception(installation.stderr)
 

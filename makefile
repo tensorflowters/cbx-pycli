@@ -60,4 +60,4 @@ poe_build:
 	@poetry build
 
 local_install:
-	@pipx install --user /home/athernatos/workspace/cyb-devtools/cbx-pycli/dist/cbx_pycli-0.1.0-py3-none-any.whl
+	@pipx install --user $(pwd)/dist/cbx_pycli-0.1.0-py3-none-any.whl

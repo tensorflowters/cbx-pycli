@@ -1,5 +1,30 @@
 from InquirerPy import get_style, inquirer
 from InquirerPy.base.control import Choice
+import json
+from InquirerPy.validator import PathValidator
+from rich.prompt import Prompt
+
+def cache_save(key, value):
+    """Save a value to the cache file."""
+    try:
+        with open("/tmp/cbx-cache.json", "r") as jsonfile:
+            cache = json.load(jsonfile)
+    except FileNotFoundError:
+        cache = {}
+
+    cache[key] = value
+
+    with open("/tmp/cbx-cache.json", "w") as jsonfile:
+        json.dump(cache, jsonfile)
+
+def cache_get(key):
+    """Get cache value."""
+    try:
+        with open("/tmp/cbx-cache.json", "r") as jsonfile:
+            cache = json.load(jsonfile)
+        return cache.get(key)
+    except FileNotFoundError:
+        return None
 
 colors = {
     "answer": "#ff00fb",
@@ -38,4 +63,21 @@ def select_prompt(
         style=style,
         instruction=instruction,
         **kwargs,
+    ).execute()
+
+def default_prompt(message: str, **kwargs) -> str:
+    style = get_style(
+        colors,
+        style_override=True,
+    )
+    default_key = kwargs.get("default_key")
+    default = kwargs.get("default")
+    if default_key:
+        cache_default_value = cache_get(default_key)
+        if cache_default_value:
+            default = cache_default_value
+    return inquirer.text(
+        message=f"{message}",
+        style=style,
+        default=f"{default}",
     ).execute()
