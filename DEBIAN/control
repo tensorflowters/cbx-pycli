@@ -1,8 +1,12 @@
-Package: mon-projet
-Version: 1.0.0
+Source: cbx-pycli
 Section: utils
 Priority: optional
-Architecture: all
-Depends: python3 (>= 3.6), python3-pip
-Maintainer: Votre Nom <votre.email@example.com>
-Description: Une description plus détaillée de votre application.
+Maintainer: Arthur Béquié <admin@cybberlaxy.com>
+Build-Depends: debhelper, build-essential devscripts dh-make
+Standards-Version: 1.0.0
+Homepage: https://github.com/ArthurB2077/cbx-pycli
+Package: cbx-cli
+Version: 1.0.0
+Architecture: amd64
+Depends: build-essential, curl, git, libbz2-dev, libffi-dev, liblzma-dev, libncursesw5-dev, libreadline-dev, libsqlite3-dev, libssl-dev, libxml2-dev, libxmlsec1-dev, tk-dev, xz-utils, zlib1g-dev, zsh
+Description: Gathering group of CLI and prompts that help you running recurent tasks faster

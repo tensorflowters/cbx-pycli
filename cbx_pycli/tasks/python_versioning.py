@@ -119,9 +119,15 @@ def install_python_version(ctx, version: str):
     if installation.ok:
         log.info(installation.stdout)
         run_wichpy = ctx.run("echo $(which python)").stdout
-        if run_wichpy.ok:
-            if run_wichpy.find('aliased'):
-                log.info(f"Verify that an alias don't exist for python in your shell")
+        run_wichpyenv = ctx.run("echo $(which pyenv)").stdout
+        if run_wichpy.ok and run_wichpyenv.ok:
+            if run_wichpyenv != run_wichpy:
+                log.warning(
+                    f"""
+                    Your python alias path is overriding previous installed python version.\n
+                    Verify that an alias don't exist for `python` in your $SHELL rc file.\n
+                    """
+                )
     else:
         log.exception(installation.stderr)
 

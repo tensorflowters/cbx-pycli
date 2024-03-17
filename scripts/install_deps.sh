@@ -1,8 +1,12 @@
+# For dev only, in the package build this deps will be include in the control file
+#!/usr/bin/env bash
+
+set -e
+
 sudo apt update
 sudo apt upgrade -y
 sudo apt-get install -y \
   build-essential \
-  curl \
   curl \
   git \
   libbz2-dev \

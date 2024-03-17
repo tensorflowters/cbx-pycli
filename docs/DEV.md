@@ -1,4 +1,4 @@
-# Building cbx-cli package
+# Building cbx-pycli package
 
 ## Pré-requis
 

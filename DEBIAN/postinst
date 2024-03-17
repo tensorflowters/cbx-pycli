@@ -1,0 +1,38 @@
+#!/bin/bash
+
+set -e
+
+# Set the path to your package's scripts directory
+SCRIPTS_DIR="/usr/bin/cbx-cli"
+
+# Set the desired Python version and virtual environment path
+PYENV_VERSION="3.12.1"
+VENV_PATH="/usr/bin/cbx-cli/.venv"
+
+# Install pyenv
+source "$SCRIPTS_DIR/install_pyenv.sh"
+
+# Install the specified Python version using pyenv
+pyenv install "$PYENV_VERSION"
+pyenv local "$PYENV_VERSION"
+
+# Create a virtual environment
+pyenv exec python3 -m venv "$VENV_PATH"
+
+# Upgrade pip and setuptools in the virtual environment
+"$VENV_PATH/bin/pip" install -U pip setuptools
+
+# Install Poetry in the virtual environment
+"$VENV_PATH/bin/pip" install poetry
+
+# Configure Poetry for the local project
+poetry config --local
+
+# Install project dependencies using Poetry
+poetry install
+
+# Any additional post-installation tasks or configurations specific to your package
+
+
+# Exit the script with a success status
+exit 0

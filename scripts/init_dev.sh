@@ -1,9 +1,10 @@
+# For dev only, in the package build this script will be replace by the postinst file
 #!/usr/bin/env bash
 
 set -e
 
 # Install pyenv
-source $(echo $(pwd)/scripts/installpyenv)
+source $(echo $(pwd)/scripts/install_pyenv.sh)
 
 PYENV_VERSION=3.12.1
 VENV_PATH=$(echo $(pwd)/.venv)

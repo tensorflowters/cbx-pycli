@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
 
-source $(echo $(pwd)/scripts/getos)
-source $(echo $(pwd)/scripts/getshell)
+source $(echo /usr/bin/cbx-cli/get_os.sh)
+source $(echo /usr/bin/cbx-cli/get_shell.sh)
 
 detect_os
 detect_shell
 
-PYENV_ROOT=$(echo $(pwd)/.pyenv)
+PYENV_ROOT=/usr/bin/cbx-cli/.pyenv
 
 echo -e "\n\033[36mOS: $CBX_VAR_OS\033[0m"
 echo -e "\033[36mShell: $CBX_VAR_SHELL\033[0m\n"
@@ -59,18 +59,6 @@ if [ "$CBX_VAR_DISTRIBUTION" = "Ubuntu" ]; then
       fi
     done
   done
-
-  # grep -v "$CBX_PYENV_ROOT_EXPORT" "$XSH_PATH" >"$XSH_PATH_TMP" && mv "$XSH_PATH_TMP" "$XSH_PATH" && rm -f "$XSH_PATH_TMP"
-  # grep -v '[[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"' "$XSH_PATH" >"$XSH_PATH_TMP" && mv "$XSH_PATH_TMP" "$XSH_PATH" && rm -f "$XSH_PATH_TMP"
-  # grep -vF 'eval "$(pyenv init -)"' "$XSH_PATH" >"$XSH_PATH_TMP" && mv "$XSH_PATH_TMP" "$XSH_PATH" && rm -f "$XSH_PATH_TMP"
-
-  # grep -v "$CBX_PYENV_ROOT_EXPORT" "$XSH_PROFILE" >"$XSH_PROFILE_TMP" && mv "$XSH_PROFILE_TMP" "$XSH_PROFILE" && rm -f "$XSH_PROFILE_TMP"
-  # grep -v '[[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"' "$XSH_PROFILE" >"$XSH_PROFILE_TMP" && mv "$XSH_PROFILE_TMP" "$XSH_PROFILE" && rm -f "$XSH_PROFILE_TMP"
-  # grep -vF 'eval "$(pyenv init -)"' "$XSH_PROFILE" >"$XSH_PROFILE_TMP" && mv "$XSH_PROFILE_TMP" "$XSH_PROFILE" && rm -f "$XSH_PROFILE_TMP"
-
-  # grep -v "$CBX_PYENV_ROOT_EXPORT" "$XSH_LOGIN" >"$XSH_LOGIN_TMP" && mv "$XSH_LOGIN_TMP" "$XSH_LOGIN" && rm -f "$XSH_LOGIN_TMP"
-  # grep -v '[[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"' "$XSH_LOGIN" >"$XSH_LOGIN_TMP" && mv "$XSH_LOGIN_TMP" "$XSH_LOGIN" && rm -f "$XSH_LOGIN_TMP"
-  # grep -vF 'eval "$(pyenv init -)"' "$XSH_LOGIN" >"$XSH_LOGIN_TMP" && mv "$XSH_LOGIN_TMP" "$XSH_LOGIN" && rm -f "$XSH_LOGIN_TMP"
 
   $CBX_VAR_SHELL -c ". $XSH_PATH"
 

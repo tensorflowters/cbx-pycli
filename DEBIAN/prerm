@@ -1,0 +1,9 @@
+#!/bin/bash
+
+set -e
+
+# Set the path to your package's scripts directory
+SCRIPTS_DIR="/usr/bin/cbx-cli"
+
+# Uninstall pyenv
+source "$SCRIPTS_DIR/uninstall_pyenv.sh"

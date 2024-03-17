@@ -57,7 +57,4 @@ poe_add_dev:
 	@poetry add ${lib} --group dev
 
 poe_build:
-	@poetry build
-
-local_install:
-	@pipx install --user $(pwd)/dist/cbx_pycli-0.1.0-py3-none-any.whl
+	@poetry build -o usr/bin/cbx-cli --format stdist
